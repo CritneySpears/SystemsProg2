@@ -832,12 +832,42 @@ int consolevgamode(int vgamode) {
             errorcode = 0;
         } break;
     }
+    clearscreen(vgamode);
 
     release(&cons.lock);
 
     return errorcode;
 }
 
+/**
+ * Method to clear the screen, based on vga mode.
+ * Only 13h implemented, as requirement for stage 1.
+*/
+void clearscreen(int vgamode) {
+
+    unsigned int x, y;
+
+
+    switch (vgamode)
+    {
+        case 0x13: {
+            for (x = 0; x < VGA_0x13_WIDTH; x++) {
+                for (y = 0; y < VGA_0x13_HEIGHT; y++) {
+                    int* memaddress = VGA_0x13_MEMORY + (VGA_0x13_WIDTH * y) + x;
+                    memset(memaddress, 0, 1);             
+                }               
+            }
+        } break;
+
+        case 0x12: {
+
+        } break;
+
+        case 0x03: {
+
+        }break;
+    }
+}
 /**
  * Get the virtual base address of the video memory associated with the current video plane.
  *

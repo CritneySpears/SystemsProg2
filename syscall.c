@@ -100,6 +100,8 @@ extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_getch(void);
+extern int sys_greeting(void);
+extern int sys_setvideomode(void);
 // TODO: Expose your system call assembly function to C.
 
 static int (*syscalls[])(void) = {
@@ -125,6 +127,8 @@ static int (*syscalls[])(void) = {
     [SYS_mkdir]   sys_mkdir,
     [SYS_close]   sys_close,
     [SYS_getch]   sys_getch,
+    [SYS_greeting]sys_greeting,
+    [SYS_setvideomode]sys_setvideomode,
     // TODO: Add your system call function to the OS syscall table.
 };
 

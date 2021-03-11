@@ -24,6 +24,9 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int getch(void);
+// My system calls
+int greeting(void);
+int setvideomode(void);
 // TODO: Declare your user APIs for your system calls.
 
 // ulib.c
@@ -39,3 +42,4 @@ void* memset(void*, int, uint);
 void* malloc(uint);
 void free(void*);
 int atoi(const char*);
+int add(int a, int b);
