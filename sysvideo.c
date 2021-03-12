@@ -18,5 +18,18 @@ int sys_setvideomode(void) {
     return 0;
 }
 
+int sys_clearscreen(void) {
+    clearscreen();
+    return 0;
+}
+
+int sys_placepixel(void) {
+    int x, y, colour;
+    argint(0, &x), argint(1, &y), argint(2, &colour);
+    setpixel(x, y ,colour);
+
+    return 0;
+}
+
 // TODO: Implement your system call for switching video modes (and any other video-related syscalls)
 // in here.

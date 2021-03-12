@@ -23,3 +23,5 @@
 #define SYS_getch  22
 #define SYS_greeting 23
 #define SYS_setvideomode 24
+#define SYS_placepixel 25
+#define SYS_clearscreen 26

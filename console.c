@@ -795,6 +795,66 @@ void writeFont(uchar * fontBuffer, unsigned int fontHeight) {
 }
 
 /**
+ * 
+ * 
+*/
+int setpixel(int x, int y, int colour) {
+
+    switch (currentvgamode) {
+
+        case 0x13: {
+            memset(VGA_0x13_MEMORY + VGA_0x13_WIDTH * y + x, colour, 1); // Set the byte at specific memory address to specified colour.            
+        } break;
+
+        case 0x03: {
+
+        } break;
+
+        case 0x12: {
+
+        } break;
+    }
+    return 0;
+}
+
+/**
+ * Clear the screen, based on vga mode.
+ * Only 13h implemented, as requirement for stage 1.
+*/
+void clearscreen() {
+
+    switch (currentvgamode) {
+
+        case 0x13: {
+
+            /*ushort* memAddress = VGA_0x13_MEMORY; // Set the start point of the vga memory
+            
+            for (int i = 0; i < VGA_0x13_WIDTH * VGA_0x13_HEIGHT; i++) { // iterate through the screen
+                memAddress[i] = 0x0000; // Empty memory
+                //memset(memAddress + i, 0x0000, 2); // Set every 2 bytes at address i to 0. Not sure if this is quicker.
+            }*/
+            
+            for (int x = 0; x < VGA_0x13_WIDTH; x++) { // loop through the next row
+                for (int y = 0; y < VGA_0x13_HEIGHT; y++) { // loop through the next column
+                    //memset(VGA_0x13_MEMORY + VGA_0x13_WIDTH * y + x, 0x0000, 1); // set the byte at each address to 0
+                    setpixel(x, y, 0x0000); // Uses setpixel to remove duplication.
+                }
+            }
+            
+        } break;
+
+        case 0x03: {
+
+        } break;
+
+        case 0x12: {
+
+        } break;
+    }
+    cprintf("Clearing screen");      
+}
+
+/**
  * Video mode switching function which must be called from kernel-space, returning `0` if a valid
  * mode was requested, otherwise `-1`.
  *
@@ -832,42 +892,12 @@ int consolevgamode(int vgamode) {
             errorcode = 0;
         } break;
     }
-    clearscreen(vgamode);
 
     release(&cons.lock);
 
     return errorcode;
 }
 
-/**
- * Method to clear the screen, based on vga mode.
- * Only 13h implemented, as requirement for stage 1.
-*/
-void clearscreen(int vgamode) {
-
-    unsigned int x, y;
-
-
-    switch (vgamode)
-    {
-        case 0x13: {
-            for (x = 0; x < VGA_0x13_WIDTH; x++) {
-                for (y = 0; y < VGA_0x13_HEIGHT; y++) {
-                    int* memaddress = VGA_0x13_MEMORY + (VGA_0x13_WIDTH * y) + x;
-                    memset(memaddress, 0, 1);             
-                }               
-            }
-        } break;
-
-        case 0x12: {
-
-        } break;
-
-        case 0x03: {
-
-        }break;
-    }
-}
 /**
  * Get the virtual base address of the video memory associated with the current video plane.
  *

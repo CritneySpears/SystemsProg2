@@ -22,6 +22,8 @@ void            cprintf(char*, ...);
 void            consoleintr(int (*)(void));
 int             consoleget(void);
 int             consolevgamode(int);
+int             setpixel(int, int, int);
+void            clearscreen(void);
 uchar*          consolevgabuffer(void);
 void            consolevgaplane(uchar);
 void            panic(char*) __attribute__((noreturn));

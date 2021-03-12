@@ -27,6 +27,8 @@ int getch(void);
 // My system calls
 int greeting(void);
 int setvideomode(void);
+int placepixel(int, int, int);
+int clearscreen(void);
 // TODO: Declare your user APIs for your system calls.
 
 // ulib.c
